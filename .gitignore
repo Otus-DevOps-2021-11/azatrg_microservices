@@ -1,0 +1,19 @@
+INSTALL
+variables.json
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+*key.json
+*.retry
+__pycache__
+jdauphant.nginx
+
+## Vagrant and Molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
