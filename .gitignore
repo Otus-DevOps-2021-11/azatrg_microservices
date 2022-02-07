@@ -12,7 +12,6 @@ jdauphant.nginx
 
 ## Vagrant and Molecule
 .vagrant/
-*.log
 *.pyc
 .molecule
 .cache
