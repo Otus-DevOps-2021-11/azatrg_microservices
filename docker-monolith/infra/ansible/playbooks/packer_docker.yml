@@ -1,8 +1,7 @@
 ---
-- name: Install Docker daemon on host
-  hosts: docker
+- name: 'Install packages for Docker host'
+  hosts: default
   become: true
-  vars:
   tasks:
     - name: Install required system packages
       apt: name={{ item }} state=latest update_cache=yes

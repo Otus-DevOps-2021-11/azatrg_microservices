@@ -26,7 +26,7 @@ variable instance_name {
 }
 variable instance_count {
   description = "Number of instances"
-  default     = 1
+  default     = 2
 }
 variable public_key_path {
   # Описание переменной
