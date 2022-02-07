@@ -5,9 +5,9 @@ on: [push, pull_request]
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        environment: ["stage", "prod"]
+    # strategy:
+    #   matrix:
+    #     environment: ["stage", "prod"]
     steps:
     - uses: actions/checkout@v2
       with:
@@ -19,18 +19,18 @@ jobs:
     - name: Terraform Init
       id: init
       run: terraform init --backend=false
-      working-directory: ./terraform/${{ matrix.environment }}
+      working-directory: ./docker-monolith/infra/terraform
 
     - name: Terraform Validate
       id: validate
       run: terraform validate
-      working-directory: ./terraform/${{ matrix.environment }}
+      working-directory: ./docker-monolith/infra/terraform
 
     - uses: terraform-linters/setup-tflint@v1
       name: Setup TFLint
 
     - name: Init TFLint
-      run: tflint --init  ./terraform/${{ matrix.environment }}
+      run: tflint --init  ./docker-monolith/infra/terraform
 
     - name: Run TFLint
-      run: tflint -f checkstyle  --loglevel=info ./terraform/${{ matrix.environment }}
+      run: tflint -f checkstyle  --loglevel=info ./docker-monolith/infra/terraform
