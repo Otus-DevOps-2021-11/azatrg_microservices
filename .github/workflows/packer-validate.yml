@@ -17,4 +17,4 @@ jobs:
         with:
           command: validate
           target: ./docker-monolith/infra/packer/*.json
-          arguments: "--var-file=packer/variables.json.example --syntax-only"
+          arguments: "--var-file=/docker-monolith/infra/packer/variables.json.example --syntax-only"

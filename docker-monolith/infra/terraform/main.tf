@@ -1,5 +1,5 @@
 provider "yandex" {
-#   version = "~> 35.0"
+  #   version = "~> 35.0"
   service_account_key_file = var.service_account_key_file
   cloud_id                 = var.cloud_id
   folder_id                = var.folder_id
@@ -7,8 +7,8 @@ provider "yandex" {
 }
 
 resource "yandex_compute_instance" "app" {
-  name        = "${var.instance_name}-${count.index + 1}"
-    labels = {
+  name = "${var.instance_name}-${count.index + 1}"
+  labels = {
     tags = var.instance_name
   }
   platform_id = "standard-v1"
@@ -38,10 +38,10 @@ resource "yandex_compute_instance" "app" {
   }
 
   connection {
-    type  = "ssh"
-    host  = "${self.network_interface.0.nat_ip_address}"
-    user  = "ubuntu"
-    agent = false
+    type        = "ssh"
+    host        = "${self.network_interface.0.nat_ip_address}"
+    user        = "ubuntu"
+    agent       = false
     private_key = file(var.private_key_path)
   }
 }

@@ -1,6 +1,6 @@
 variable service_account_key_file {
   description = "key .json"
-  default = "../yc-terraform-key.json"
+  default     = "../yc-terraform-key.json"
 }
 variable cloud_id {
   description = "Cloud"
@@ -18,7 +18,7 @@ variable image_id {
 }
 variable subnet_id {
   description = "Subnet"
-    default = "e9b2okmdlc8fp8b2m3i0"
+  default     = "e9b2okmdlc8fp8b2m3i0"
 }
 variable instance_name {
   description = "Instance name"
@@ -31,10 +31,10 @@ variable instance_count {
 variable public_key_path {
   # Описание переменной
   description = "Path to the public key used for ssh access"
-  default = "~/.ssh/appuser.pub"
+  default     = "~/.ssh/appuser.pub"
 }
 variable private_key_path {
   # Описание переменной
   description = "Path to the private key used for ssh access"
-    default = "~/.ssh/appuser"
+  default     = "~/.ssh/appuser"
 }
