@@ -1,15 +1,15 @@
-FROM ruby:2.2
-RUN apt-get update -qq && apt-get install -y build-essential
+FROM alpine:3.14
 
-ENV APP_HOME /app
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
+WORKDIR /app
+ADD . /app
 
-ADD Gemfile* $APP_HOME/
-RUN bundle install
-ADD . $APP_HOME
+RUN apk update \
+    && apk add ruby ruby-dev ruby-full g++ make \
+    && gem install bundler:1.17.2 \
+    && bundle install \
+    && apk del ruby-dev g++ make
 
-ENV COMMENT_DATABASE_HOST comment_db
-ENV COMMENT_DATABASE comments
+ENV COMMENT_DATABASE_HOST=comment_db \
+    COMMENT_DATABASE=comments
 
 CMD ["puma"]
