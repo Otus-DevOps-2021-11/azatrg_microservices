@@ -9,6 +9,7 @@ variables.json
 *.retry
 __pycache__
 jdauphant.nginx
+backend.tf
 
 ## Vagrant and Molecule
 .vagrant/
