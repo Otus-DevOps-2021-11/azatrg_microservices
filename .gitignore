@@ -10,6 +10,7 @@ variables.json
 __pycache__
 jdauphant.nginx
 backend.tf
+*.env
 
 ## Vagrant and Molecule
 .vagrant/
