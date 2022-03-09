@@ -58,6 +58,16 @@ services:
     networks:
       - front_net
 
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.30
+    command:
+      - '--mongodb.uri=mongodb://db:27017'
+      # - '--web.listen-address=":9216"'
+      # - '--web.telemetry-path="/metrics"'
+    networks:
+      - back_net
+      - front_net
+
 volumes:
   post_db:
   prometheus_data:
