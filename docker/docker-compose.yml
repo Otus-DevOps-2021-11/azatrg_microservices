@@ -1,0 +1,91 @@
+version: '3.3'
+services:
+  db:
+    image: mongo:${MONGODB_VERSION}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    # build: ./ui
+    image: ${REPONAME}/ui:${UI_VERSION}
+    ports:
+      - ${HOST_PORT}:9292/tcp
+    networks:
+      - front_net
+  post:
+    # build: ./post-py
+    image: ${REPONAME}/post:${POST_VERSION}
+    links:
+      - db:post_db
+    networks:
+      - front_net
+      - back_net
+
+  comment:
+    # build: ./comment
+    image: ${REPONAME}/comment:${COMMENT_VERSION}
+    links:
+      - db:comment_db
+    networks:
+      - front_net
+      - back_net
+
+  prometheus:
+    image: ${REPONAME}/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+    networks:
+      - front_net
+
+  node-exporter:
+    image: prom/node-exporter:v1.3.1
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - front_net
+
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.30
+    command:
+      - '--mongodb.uri=mongodb://db:27017'
+      # - '--web.listen-address=":9216"'
+      # - '--web.telemetry-path="/metrics"'
+    networks:
+      - back_net
+      - front_net
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.19.0
+    # ports:
+    #   - '9115:9115'
+    networks:
+      - front_net
+
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  back_net:
+    ipam:
+      config:
+        - subnet: 10.0.2.0/24
+  front_net:
+      ipam:
+        config:
+          - subnet: 10.0.1.0/24
