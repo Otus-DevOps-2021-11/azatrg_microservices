@@ -9,6 +9,8 @@ services:
   ui:
     # build: ./ui
     image: ${REPONAME}/ui:${UI_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - ${HOST_PORT}:9292/tcp
     networks:
@@ -21,18 +23,14 @@ services:
   post:
     # build: ./post-py
     image: ${REPONAME}/post:${POST_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     links:
       - db:post_db
     networks:
       - front_net
       - back_net
-  # post:
-  #   image: ${USER_NAME}/post
-  #   environment:
-  #     - POST_DATABASE_HOST=post_db
-  #     - POST_DATABASE=posts
-  #   depends_on:
-  #     - post_db
+
     ports:
       - "5000:5000"
     logging:
@@ -44,6 +42,8 @@ services:
   comment:
     # build: ./comment
     image: ${REPONAME}/comment:${COMMENT_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     links:
       - db:comment_db
     networks:
